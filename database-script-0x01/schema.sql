@@ -1,5 +1,4 @@
-```sql
--- 3.1 Lookup tables to replace ENUMs
+-- Lookup tables to replace ENUMs
 CREATE TABLE roles (
   role_id UUID PRIMARY KEY,
   role_name VARCHAR(50) UNIQUE NOT NULL  -- guest, host, admin
@@ -15,7 +14,7 @@ CREATE TABLE payment_methods (
   method_name VARCHAR(50) UNIQUE NOT NULL  -- credit_card, paypal, stripe
 );
 
--- 3.2 Locations (normalize Property.location)
+-- Locations (normalize Property.location)
 CREATE TABLE locations (
   location_id UUID PRIMARY KEY,
   street VARCHAR(200) NULL,
@@ -25,7 +24,7 @@ CREATE TABLE locations (
   postal_code VARCHAR(20) NULL
 );
 
--- 3.3 Users
+-- Users
 CREATE TABLE users (
   user_id UUID PRIMARY KEY,
   first_name VARCHAR(100) NOT NULL,
@@ -37,7 +36,7 @@ CREATE TABLE users (
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
--- 3.4 Properties
+-- Properties
 CREATE TABLE properties (
   property_id UUID PRIMARY KEY,
   host_id UUID NOT NULL REFERENCES users(user_id),
@@ -49,7 +48,7 @@ CREATE TABLE properties (
   updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
--- 3.5 Bookings
+-- Bookings
 CREATE TABLE bookings (
   booking_id UUID PRIMARY KEY,
   property_id UUID NOT NULL REFERENCES properties(property_id),
@@ -60,30 +59,27 @@ CREATE TABLE bookings (
   status_id UUID NOT NULL REFERENCES booking_statuses(status_id),
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   CONSTRAINT chk_date_range CHECK (start_date < end_date)
-  -- Optional: add exclusion constraint or trigger to prevent overlapping bookings per property (DB-specific)
 );
 
--- 3.6 Payments (one-to-many per booking)
+-- Payments (one-to-many per booking)
 CREATE TABLE payments (
   payment_id UUID PRIMARY KEY,
   booking_id UUID NOT NULL REFERENCES bookings(booking_id),
   amount DECIMAL(10,2) NOT NULL,
   payment_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   method_id UUID NOT NULL REFERENCES payment_methods(method_id)
-  -- Optional: payment_status, transaction_ref, etc.
 );
 
--- 3.7 Reviews (tie to booking to guarantee stay)
+-- Reviews (tie to booking to guarantee stay)
 CREATE TABLE reviews (
   review_id UUID PRIMARY KEY,
   booking_id UUID NOT NULL REFERENCES bookings(booking_id) UNIQUE, -- one review per booking
   rating INTEGER NOT NULL CHECK (rating BETWEEN 1 AND 5),
   comment TEXT NOT NULL,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
-  -- property_id and user_id can be obtained via join through bookings
 );
 
--- 3.8 Messages
+-- Messages
 CREATE TABLE messages (
   message_id UUID PRIMARY KEY,
   sender_id UUID NOT NULL REFERENCES users(user_id),
@@ -92,10 +88,9 @@ CREATE TABLE messages (
   sent_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
--- 3.9 Helpful Indexes
+-- Helpful Indexes
 CREATE INDEX idx_users_email ON users(email);
 CREATE INDEX idx_properties_host ON properties(host_id);
 CREATE INDEX idx_properties_location ON properties(location_id);
 CREATE INDEX idx_bookings_property_dates ON bookings(property_id, start_date, end_date);
 CREATE INDEX idx_payments_booking ON payments(booking_id);
-```
