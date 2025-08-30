@@ -63,4 +63,6 @@
 
 ## ER Diagram
 
+Using Chen-Crow's Foot hybrid ERD diagram:
+
 ![alt text](airbnb_schema.png)
