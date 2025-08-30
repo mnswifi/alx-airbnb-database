@@ -1,6 +1,11 @@
 -- Airbnb 3NF Schema (MySQL with Lookup Tables & UUIDs)
 -- Requires MySQL 8.0+ for UUID functions and CHECK constraints
 
+
+-- Create Database
+CREATE DATABASE IF NOT EXISTS airbnb_clone;
+USE airbnb_clone;
+
 -- Drop tables if exist (order matters because of FKs)
 DROP TABLE IF EXISTS messages;
 DROP TABLE IF EXISTS reviews;
