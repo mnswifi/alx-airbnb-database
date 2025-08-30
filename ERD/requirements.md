@@ -1,5 +1,7 @@
 # Database Specification - AirBnB
 
+---
+
 ## Entities and Attributes
 
 ### User
@@ -61,8 +63,14 @@
 - message_body (TEXT) Not Null
 - sent_at (TIMESTAMP) Default CURRENT_TIMESTAMP
 
+---
+
 ## ER Diagram
 
 Using Chen-Crow's Foot hybrid ERD diagram:
 
 ![alt text](airbnb_schema.png)
+
+### Adjusted ER Diagram - 3NF
+
+![alt text](<airbnb_schema_3nf.png>)
