@@ -48,3 +48,61 @@ FULL OUTER JOIN bookings ON users.id = bookings.user_id;
 - Returns all users and all bookings.
 - Users without bookings and bookings without valid users are included.
 - Non-matching columns will be `NULL`.
+
+---
+
+## SQL Subquery Examples (subqueries and correlated subqueries)
+
+This document demonstrates the use of **subqueries** and **correlated subqueries** in SQL with sample tables:
+
+- `users`
+- `bookings`
+- `properties`
+- `reviews`
+
+---
+
+## 🔹 Query 1: Properties with Average Rating > 4.0
+
+Find all properties where the **average review rating** is greater than 4.0.
+
+```sql
+SELECT *
+FROM properties
+WHERE id IN (
+    SELECT property_id
+    FROM reviews
+    GROUP BY property_id
+    HAVING AVG(rating) > 4.0
+);
+```
+
+✅ Explanation:
+
+- The subquery groups `reviews` by `property_id`.
+
+- It filters groups where the AVG(rating) > 4.0.
+
+- The outer query fetches property details matching those IDs.
+
+## 🔹 Query 2: Users with More Than 3 Bookings
+
+Use a correlated subquery to find users who have made more than 3 bookings.
+
+```sql
+SELECT *
+FROM users u
+WHERE (
+    SELECT COUNT(*)
+    FROM bookings b
+    WHERE b.user_id = u.id
+) > 3;
+```
+
+✅ Explanation:
+
+- The subquery counts how many bookings each user (`u.id`) has.
+
+- It runs once per user (correlated subquery).
+
+- The outer query returns users with more than 3 bookings.
