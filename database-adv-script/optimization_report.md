@@ -28,6 +28,9 @@ FROM bookings b
 JOIN users u ON b.user_id = u.id
 JOIN properties p ON b.property_id = p.id
 JOIN payments pay ON b.id = pay.booking_id;
+WHERE b.id IS NOT NULL
+  AND u.id IS NOT NULL;
+
 ```
 
 ---
@@ -52,6 +55,9 @@ FROM bookings b
 JOIN users u ON b.user_id = u.id
 JOIN properties p ON b.property_id = p.id
 JOIN payments pay ON b.id = pay.booking_id;
+WHERE b.id IS NOT NULL
+  AND u.id IS NOT NULL;
+
 ```
 
 Nested Loop Joins → can be expensive on large datasets.
@@ -95,6 +101,9 @@ FROM bookings b
 JOIN users u ON b.user_id = u.id
 JOIN properties p ON b.property_id = p.id
 JOIN payments pay ON b.id = pay.booking_id;
+WHERE b.id IS NOT NULL
+  AND u.id IS NOT NULL;
+
 ```
 
 ---
@@ -115,6 +124,9 @@ JOIN users u ON b.user_id = u.id
 JOIN properties p ON b.property_id = p.id
 JOIN payments pay ON b.id = pay.booking_id
 WHERE pay.status = 'Completed';
+WHERE b.id IS NOT NULL
+  AND u.id IS NOT NULL;
+
 ```
 
 ---
@@ -130,6 +142,9 @@ FROM bookings b
 JOIN users u ON b.user_id = u.id
 JOIN properties p ON b.property_id = p.id
 JOIN payments pay ON b.id = pay.booking_id;
+WHERE b.id IS NOT NULL
+  AND u.id IS NOT NULL;
+
 ```
 
 Expected improvements:

@@ -1,6 +1,7 @@
 -- ====================================================================
 -- Initial Query: Get bookings with user, property, and payment details
 -- ====================================================================
+
 SELECT b.id AS booking_id,
        b.booking_date,
        u.id AS user_id,
@@ -14,7 +15,10 @@ SELECT b.id AS booking_id,
 FROM bookings b
 JOIN users u ON b.user_id = u.id
 JOIN properties p ON b.property_id = p.id
-JOIN payments pay ON b.id = pay.booking_id;
+JOIN payments pay ON b.id = pay.booking_id
+WHERE b.id IS NOT NULL
+  AND u.id IS NOT NULL;
+
 
 
 -- =========================
@@ -36,6 +40,8 @@ FROM bookings b
 JOIN users u ON b.user_id = u.id
 JOIN properties p ON b.property_id = p.id
 JOIN payments pay ON b.id = pay.booking_id;
+WHERE b.id IS NOT NULL
+  AND u.id IS NOT NULL;
 
 -- ==========================================
 -- Indexes to Improve Query Performance
@@ -69,3 +75,5 @@ FROM bookings b
 JOIN users u ON b.user_id = u.id
 JOIN properties p ON b.property_id = p.id
 JOIN payments pay ON b.id = pay.booking_id;
+WHERE b.id IS NOT NULL
+  AND u.id IS NOT NULL;
